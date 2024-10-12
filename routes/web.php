@@ -74,6 +74,61 @@ Route::prefix('admin')->group(function () {
     });
 });
 
+// User Routes
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register');
+
+
+Route::get('/home', function () {
+    return view('misc.index');
+})->name('home');
+
+Route::get('/photos', function () {
+    return view('photos.view');
+})->name('photos');
+
+Route::get('/videos', function () {
+    return view('videos.view');
+})->name('videos');
+
+Route::get('/about', function () {
+    return view('misc.about');
+})->name('about');
+Route::get('/contact', function () {
+    return view('misc.contact');
+})->name('contact');
+
+Route::get('/profile/{profile}', function () {
+    return view('misc.profile');
+})->name('profile');
+
+Route::get('/userprofile/{user}', function () {
+    return view('userprofile.show');
+})->name('userprofile.show');
+
+Route::get('/edituserprofile/{user}/edit', function () {
+    return view('userprofile.edit');
+})->name('userprofile.edit');
+
+
+
+Route::get('/userprofile/{user}/{uploads}', function () {
+    return view('.userprofile.uploads.show');
+})->name('userphoto.show');
+
+Route::get('/photos/{photo}', function () {
+    return view('photos.show');
+})->name('photos.show');
+
+Route::get('/videos/{videos}', function () {
+    return view('videos.show');
+})->name('videos.show');
+
 // Generated Breeze Auth
 //Route::get('/dashboard', function () {
 //    return view('dashboard');
