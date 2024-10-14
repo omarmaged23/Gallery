@@ -34,8 +34,8 @@
                             @csrf
                             <input type="hidden" name="id" value="{{$user->id}}">
                         <select class="form-control-sm" name="status" onchange="document.getElementById('statusForm').submit();">
-                             <option value="0" {{$user->active == '0' ? 'selected' : ''}}>In-Active</option>
-                             <option value="1" {{$user->active == '1' ? 'selected' : ''}}>Active</option>
+                             <option value="zero" {{$user->active == '0' ? 'selected' : ''}}>In-Active</option>
+                             <option value="one" {{$user->active == '1' ? 'selected' : ''}}>Active</option>
                         </select>
                         </form>
                     </td>

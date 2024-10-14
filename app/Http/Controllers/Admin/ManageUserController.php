@@ -20,11 +20,14 @@ class ManageUserController extends Controller
         $request->validate([
             'id' => 'exists:users,id'
         ]);
-        if($request->status == '1'){
+
+        if($request->status == 'one'){
             $status = 1;
         }else{
             $status = 0;
         }
+        dd($status);
+
         $user = User::find($request->id);
         $user->active = $status;
         $user->status_changed_by = auth()->user()->id;

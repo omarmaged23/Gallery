@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Admin;
+use App\Models\Admin\category;
+use App\Models\Admin\media;
+use App\Models\Admin\slugs;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -11,7 +15,31 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin.index');
+        $slugs = slugs::all()->count();
+        $categories = category::all()->count();
+
+        $media = new media();
+
+        $photosCount = $media->whereHas('mediaDetails', function($query) {
+            $query->where('type', 'image');
+        })->count();
+
+        $videosCount = $media->whereHas('mediaDetails', function($query) {
+            $query->where('type', 'video');
+        })->count();
+
+        $allMediaCount = $photosCount + $videosCount;
+
+        $hiddenMedia = $media->where('approved','1')->count();
+
+        $activeMedia =$allMediaCount - $hiddenMedia ;
+
+        $users = new User();
+        $usersCount = $users->get()->count();
+        $usersInActiveCount = $users->where('active','0')->count();
+        $usersActiveCount = $usersCount - $usersInActiveCount ;
+
+        return view('admin.index',compact('slugs','categories','photosCount','videosCount','allMediaCount','hiddenMedia','activeMedia','usersCount','usersInActiveCount','usersActiveCount'));
     }
     public function indexAdmins(){
         $admins = Admin::all();

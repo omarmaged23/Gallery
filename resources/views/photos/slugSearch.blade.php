@@ -16,18 +16,6 @@ $j=0;
 {{--        <button class="btn btn-primary" type="submit">Search</button>--}}
 {{--    </form>--}}
 {{--  </div>--}}
-  <div class="containers mt-5">
-    <h3>Want to Upload Your Photo/Video?</h3>
-    <button type="button" class="btn btn-secondary" onclick="toggleUploadModal()">Upload Photo/Video</button>
-  </div>
-  <div id="upload-modal" class="modal" style="display: none;">
-    {{-- MODAL: is the outer container that covers the entire screen and dims the background --}}
-    <div class="modal-content">
-      {{-- MODAL-CONTENT: is the inner container that holds the form inside and its centerd --}}
-      <span class="close" onclick="toggleUploadModal()">&times;</span>
-      {{-- CLOSE: is the span element that allows the user to close the form --}}
-        @include('misc.upload')
-    </div>
 </div>
   <div class="containers">
     <div  id="photo-gallery" class="row mx-0 my-5 ">
@@ -38,16 +26,29 @@ $j=0;
         @foreach($photos as $photo)
             <div class="col-lg-3 col-md-6 col-12 p-1"> <!-- Adjust this class for your layout -->
                 <div style='border:1px solid black;'>
+                    @if($photo->mediaDetails->type == 'image')
                     <figure class="effect-ming tm-video-item">
                         <a href="/photos/{{ $photo->id }}">
                             <div class=" d-flex justify-content-center">
-                                <img class="img-fluid " src="{{ asset($photo->path) }}" alt="" style="height:300px; ">
+                                <img class="img-fluid " src="{{ asset($photo->path) }}" alt="" style="height:200px; ">
                             </div>
                             <figcaption class="d-flex align-items-center justify-content-center">
                                 <h2>{{ $photo->name }}</h2>
                             </figcaption>
                         </a>
                     </figure>
+                    @else
+                        <figure class="effect-ming tm-video-item">
+                            <a href="/videos/{{ $photo->id }}">
+                                <div class=" d-flex justify-content-center">
+                                    <img class="img-fluid" src="{{ asset('screen_shots/'.pathinfo($photo->path, PATHINFO_FILENAME).'.png') }}" alt="" style="height:200px;">
+                                </div>
+                                <figcaption class="d-flex align-items-center justify-content-center">
+                                    <h2>{{ $photo->name }}</h2>
+                                </figcaption>
+                            </a>
+                        </figure>
+                    @endif
                     <div class="d-flex justify-content-evenly">
                         <span>{{ $photo->user->name }}</span>
                         <div id="{{'like-'.++$i}}" class="like-btn" data-id="{{$photo->id}}">
@@ -75,25 +76,6 @@ $j=0;
     </div>
   </div>
 </div>
-
-    <script>
-        function toggleUploadModal() {
-            // this function checks the current display status of the modal. if its hidden, it sets it to block making it visible
-            const modal = document.getElementById('upload-modal');
-            modal.style.display = modal.style.display === 'none' ? 'block' : 'none';
-        }
-
-        // Close the modal when clicking outside of the modal content
-        window.onclick = function(event) {
-            // listens to click anyhwhere on the screen
-            // the even listener checks if the user clicks anywhere on the window
-            // if the click occurs on the dark area, it hides the modal again
-            const modal = document.getElementById('upload-modal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        }
-    </script>
     <script>
         $(document).ready(function () {
             $(document).on('click', '.like-btn', function () {

@@ -13,6 +13,20 @@
         <!-- Right Side with Login Form -->
         <div class="col-lg-6 col-12 d-flex align-items-center justify-content-center bg-light p-0">
             <div class="login-form p-4" style="max-width: 350px; width: 100%;">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                @if(session()->has('email'))
+                        <div class="alert alert-danger">
+                            {{session('email')}}
+                        </div>
+                @endif
                 <h2 class="mb-4 text-center">Account Login</h2>
 
                 <form action="{{ route('login.store') }}" method="POST">

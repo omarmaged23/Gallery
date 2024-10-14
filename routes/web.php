@@ -97,7 +97,7 @@ Route::prefix('admin')->group(function () {
 //    return view('dashboard');
 //})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth:web')->group(function () {
+Route::middleware(['auth:web','check_user_status'])->group(function () {
 
 //    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -109,6 +109,7 @@ Route::middleware('auth:web')->group(function () {
     Route::get('/photos', [PhotoController::class,'index'])->name('photos');
 
     Route::get('/photos/{photo}', [PhotoController::class,'show'])->name('photos.show');
+    Route::get('/photos/slug/{slug}', [PhotoController::class,'searchBySlug'])->name('photos.searchBySlug');
 
     Route::get('/videos',[VideoController::class,'index'])->name('videos');
 

@@ -13,7 +13,7 @@ class VideoController extends Controller
 {
     public function index()
     {
-        $photosPerPage = 12;
+        $photosPerPage = 8;
 
         $photos = media::whereHas('mediaDetails', function($query) {
             $query->where('type', 'video');

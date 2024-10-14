@@ -14,9 +14,10 @@ use Illuminate\Http\Request;
 
 class PhotoController extends Controller
 {
+    private $photosPerPage = 8;
     public function index()
     {
-        $photosPerPage = 12;
+        $photosPerPage = $this->photosPerPage;
 
         $photos = media::whereHas('mediaDetails', function($query) {
             $query->where('type', 'image');
@@ -42,5 +43,17 @@ class PhotoController extends Controller
         $categories = category::all();
         $slugs = slugs::all();
         return view('photos.show',compact('photo','photoSlugs','categories','slugs'));
+    }
+
+    public function searchBySlug($slug_id)
+    {
+        $photosPerPage = $this->photosPerPage;
+        $photos = media::where('approved','1')->whereHas('slugs', function($query) use($slug_id){
+            $query->where('slug_id', $slug_id);
+        })->paginate($photosPerPage);
+        $banner = banner::where('active','1')->whereHas('bannerDetails', function($query) {
+            $query->where('type', 'image');
+        })->first();
+        return view('photos.slugSearch',compact('photos','banner'));
     }
 }

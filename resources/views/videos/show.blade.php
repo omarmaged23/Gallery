@@ -3,13 +3,7 @@
 @section('title') Photos @endsection
 
 @section('content')
-    <div class="container">
 
-        <form id="search" class="d-flex justify-content-center my-3">
-            <input class="form-control me-2" type="search" placeholder="Search for videos..." aria-label="Search" style="width: 300px;">
-            <button class="btn btn-primary" type="submit">Search</button>
-        </form>
-    </div>
     @if($photo->user->id == auth()->user()->id)
         <div class="containers mb-4">
             <h3>Want to Edit/Delete Your file?</h3>
@@ -38,15 +32,14 @@
                     <div class="tm-bg-gray tm-video-details">
                         <div class="text-center mb-5">
                             <a href="{{asset($photo->path)}}" download="capture" id="download-btn" class="btn btn-success tm-btn-big" style="padding: 12px 90px 14px;">Download</a>
-                            <p class="mb-4" style="color: #999; padding-top:5%;">
+                            <p class="mb-4" style="color: #999; padding-top: 5%;">
                                 Please support us by making <a href="https://paypal.me/templatemo" target="_parent" rel="sponsored">a PayPal donation</a>. Nam ex nibh, efficitur eget libero ut, placerat aliquet justo. Cras nec varius leo.
                             </p>
                         </div>
-                        <div class="mb-4 d-flex flex-wrap dimension-format">
+                        <div class="dimension-format" style="display: block;">
                             <div class="mb-4">
                                 <h4 class="tm-text-gray-dark mb-3">Uploaded By: {{$photo->user->name}}</h4>
                             </div>
-
                             <div class="mb-4">
                                 <h4 class="tm-text-gray-dark mb-3">Description:</h4>
                                 <p>{{$photo->description}}</p>
@@ -64,13 +57,12 @@
                                 <span class="tm-text-primary highlight">{{$photo->categories->first()->title}}</span>
                             </div>
                         </div>
-                        <div>
+                        <div style="display: block;">
                             <h3 class="tm-text-gray-dark mb-3">Tags</h3>
                             @foreach($photo->slugs as $slug)
-                                <a href="#" class="tm-text-primary mr-4 mb-2 d-inline-block">{{$slug->title}}</a>
+                                <a href="{{route('photos.searchBySlug',$slug->id)}}" class="tm-text-primary mr-4 mb-2 d-inline-block">{{$slug->title}}</a>
                             @endforeach
                         </div>
-
                         <div class="d-flex justify-content-between">
                             <div id="liked" class="like-btn-0" data-id="{{$photo->id}}">
                                 <button class="heart-button" aria-label="Like">
@@ -84,11 +76,8 @@
                                 </button>
                                 <span id="{{'likesCount-0'}}">{{$photo->likes->count()}}</span>
                             </div>
-                            {{--                                <span class="tm-text-gray-dark">Downloads: </span>--}}
-                            {{--                                <span class="highlight">{{$photo->mediaDetails->download_count}}</span>--}}
                         </div>
                     </div>
-
                 </div>
             </div>
             <hr>

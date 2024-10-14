@@ -12,13 +12,13 @@
                 <video src="{{asset($banner->path)}}" style="width: 100%; height: 100%; object-fit: cover;" autoplay muted loop></video>
             </a>
         </div>
-        <div class="container">
-            <form id="search" class="d-flex justify-content-center my-3">
-                <input class="form-control me-2" type="search" placeholder="Search for videos..." aria-label="Search" style="width: 300px;">
-                <button class="btn btn-primary" type="submit">Search</button>
-            </form>
-        </div>
-        <div class="containers">
+{{--        <div class="container">--}}
+{{--            <form id="search" class="d-flex justify-content-center my-3">--}}
+{{--                <input class="form-control me-2" type="search" placeholder="Search for videos..." aria-label="Search" style="width: 300px;">--}}
+{{--                <button class="btn btn-primary" type="submit">Search</button>--}}
+{{--            </form>--}}
+{{--        </div>--}}
+        <div class="containers mt-5">
             <h3>Want to Upload Your Photo/Video?</h3>
             <button type="button" class="btn btn-secondary" onclick="toggleUploadModal()">Upload Photo/Video</button>
         </div>
@@ -42,7 +42,9 @@
                         <div style='border:1px solid black;'>
                             <figure class="effect-ming tm-video-item">
                                 <a href="/videos/{{ $photo->id }}">
-                                    <img class="img-fluid" src="{{ asset('screen_shots/'.pathinfo($photo->path, PATHINFO_FILENAME).'.png') }}" alt="" style="width: 100%;">
+                                    <div class=" d-flex justify-content-center">
+                                        <img class="img-fluid" src="{{ asset('screen_shots/'.pathinfo($photo->path, PATHINFO_FILENAME).'.png') }}" alt="" style="height:200px;">
+                                    </div>
                                     <figcaption class="d-flex align-items-center justify-content-center">
                                         <h2>{{ $photo->name }}</h2>
                                     </figcaption>
