@@ -21,12 +21,11 @@ class ManageUserController extends Controller
             'id' => 'exists:users,id'
         ]);
 
-        if($request->status == 'one'){
+        if($request->status == '1'){
             $status = 1;
         }else{
             $status = 0;
         }
-        dd($status);
 
         $user = User::find($request->id);
         $user->active = $status;
