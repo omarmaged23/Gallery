@@ -11,9 +11,11 @@ use App\Models\Admin\media;
 use App\Models\Admin\media_slugs;
 use App\Models\Admin\mediaCategory;
 use App\Models\Admin\slugs;
+use App\Models\User;
 use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFMpeg;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
@@ -62,14 +64,19 @@ class MediaController extends Controller
             shell_exec($command);
 
         }
-        DB::transaction(function () use ($request,$extension,$folder,$media_name,$type,$size,$formattedDuration,$dimensions) {
+        if (Auth::guard('admin')->check()) {
+            $id = User::first()->id;
+        } elseif (Auth::guard('web')->check()) {
+            $id = auth()->user()->id;
+        }
+        DB::transaction(function () use ($request,$extension,$folder,$media_name,$type,$size,$formattedDuration,$dimensions,$id) {
             $description = $request->description ?? null;
             $media = Media::create([
                 'name' => $request->name,
                 'description' => $description,
                 'format' => $extension,
                 'path' => $folder.'/'.$media_name,
-                'uploaded_by_id' => 1 // logged in user
+                'uploaded_by_id' => $id // logged in user
             ]);
 
             foreach ($request->slugs as $slug_id){
