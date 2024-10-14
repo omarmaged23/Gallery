@@ -13,16 +13,16 @@
         <!-- Right Side with Login Form -->
         <div class="col-lg-6 col-12 d-flex align-items-center justify-content-center bg-light p-0">
             <div class="login-form p-4" style="max-width: 350px; width: 100%;">
-                <h2 class="mb-4 text-center">Account Login</h2>
+                <h2 class="mb-4 text-center">Registration</h2>
 
-                <form action="" method="POST">
+                <form action="{{route('register.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group mb-3">
                         <input type="text" class="form-control" name="name" placeholder="Name" required>
                     </div>
 
                     <div class="form-group mb-3">
-                        <input type="text" class="form-control" name="email" placeholder="Email" required>
+                        <input type="email" class="form-control" name="email" placeholder="Email" required>
                     </div>
 
                     <div class="form-group mb-3">
@@ -30,13 +30,13 @@
                     </div>
 
                     <div class="form-group mb-3">
-                        <input type="password" class="form-control" name="repassword" placeholder="re-write the Password" required>
+                        <input type="password" class="form-control" name="password_confirmation" placeholder="re-write the Password" required>
                     </div>
                     <div class="mb-3">
                         <input class="form-control" type="file" id="myFile" name="profilepic" accept=".jpg,.jpeg,.png">
                     </div>
 
-                    <button type="submit" class="btn btn-success w-100 mb-3">Sign In</button>
+                    <button type="submit" class="btn btn-success w-100 mb-3">Sign Up</button>
 
                     {{-- <div class="text-center">
                         <a href="#" class="text-muted">Forgot User name / password?</a>

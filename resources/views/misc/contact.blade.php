@@ -6,12 +6,29 @@
 <div>
     <div class="position-relative" style="width: 100%; height: 25vh; overflow: hidden;">
         <h1 class="special-heading">Contact</h1>
-        <p>This is a paragraph</p>
+        <p>How can we help?</p>
         {{-- <img src="{{ url('/images/myimage1.jpg') }}" alt="" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;"> --}}
+    </div>
+    <div class="container">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        @if(session()->has('success'))
+            <div class="alert alert-success">
+                {{session('success')}}
+            </div>
+        @endif
     </div>
     <div class=" py-3 d-grid gap-4 " style="margin:5% 20% 5% ; grid-template-columns: 1fr 1fr;">
         <div class="pe-4 border-end">
-            <form>
+            <form method="post" action="{{route('contact.mail')}}">
+                @csrf
                 <div class="mb-3">
                     <input type="text" name="name" placeholder="Name" class="form-control input" id="name" aria-describedby="emailHelp">
                     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
@@ -20,18 +37,10 @@
                     <input type="text" name="email" placeholder="Email" class="form-control input" id="email">
                 </div>
                 <div class="mb-3">
-                    <select id="select" class="form-select input">
-                        <option>Option1</option>
-                        <option>Option2</option>
-                        <option>Option3</option>
-                    </select>
+                    <input type="text" name="subject" placeholder="Subject" class="form-control input" id="subject">
                 </div>
                 <div class="mb-3">
                     <textarea class="form-control" name="message" id="message" cols="30" rows="10" style="resize:none">Message</textarea>
-                </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
                 </div>
                 <button type="submit" class="btn" style="width: 100%; background-color:#22219b; color:white">Submit</button>
             </form>

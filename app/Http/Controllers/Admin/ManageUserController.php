@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ManageUserController extends Controller
 {
@@ -37,6 +38,9 @@ class ManageUserController extends Controller
         ]);
         $user = User::find($request->id);
         if($user){
+            if (File::exists(public_path('profile_picture'.$user->path))) {
+                File::delete(public_path('profile_picture'.$user->path));
+            }
             $user->delete();
         }
         return back()->with('success','user deleted successfully');

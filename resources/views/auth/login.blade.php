@@ -15,10 +15,10 @@
             <div class="login-form p-4" style="max-width: 350px; width: 100%;">
                 <h2 class="mb-4 text-center">Account Login</h2>
 
-                <form action="{{ route('login') }}" method="POST">
+                <form action="{{ route('login.store') }}" method="POST">
                     @csrf
                     <div class="form-group mb-3">
-                        <input type="text" class="form-control" name="username" placeholder="User name" required>
+                        <input type="email" class="form-control" name="email" placeholder="Email Address" required>
                     </div>
 
                     <div class="form-group mb-3">

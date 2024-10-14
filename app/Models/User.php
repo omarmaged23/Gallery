@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar_path'
     ];
 
     /**
@@ -45,6 +46,10 @@ class User extends Authenticatable
     ];
     public function media()
     {
-        return $this->hasMany(Media::class);
+        return $this->hasMany(Media::class,'uploaded_by_id');
+    }
+    public function likes()
+    {
+        return $this->hasMany(likes::class, 'user_id');
     }
 }

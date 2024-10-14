@@ -2,6 +2,8 @@
 
 namespace App\Models\Admin;
 
+use App\Models\likes;
+use App\Models\media_interaction;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,5 +27,13 @@ class media extends Model
     public function categories()
     {
         return $this->belongsToMany(category::class, 'media_categories', 'media_id', 'category_id');
+    }
+    public function likes()
+    {
+        return $this->hasMany(likes::class);
+    }
+    public function comments()
+    {
+        return $this->hasMany(media_interaction::class);
     }
 }

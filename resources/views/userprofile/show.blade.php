@@ -9,11 +9,12 @@
             <!-- User Info Card -->
             <div class="col-12 mb-4 m-5 px-3" >
                 <div class="card d-flex align-items-center " style="border: none; text-align: center; padding: 0 15% 0; ">
-                    <img style="width: 120px; height: 120px; border-radius: 50%;" src="{{ url('/images/profile.jpeg') }}" class="card-img-top" alt="Profile Image">
+                    <img style="width: 120px; height: 120px; border-radius: 50%;" src="{{$user->avatar_path ? asset('profile_picture/'.$user->avatar_path) : url('/images/profile.jpeg') }}" class="card-img-top" alt="Profile Image">
                     <div class="card-body">
-                        <h5 class="card-title">Name</h5>
-                        <p class="card-text">Description: Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste similique corrupti repellendus necessitatibus maxime rerum quibusdam illo soluta quo sint dicta eveniet, quos odio voluptate minus ab in tenetur harum!</p>
-                        <a href="{{ route('userprofile.edit', 1) }}" class="btn btn-primary">Edit Profile</a>
+                        <h5 class="card-title">{{$user->name}}</h5>
+                        @if($user->id == auth()->user()->id)
+                        <a href="{{ route('userprofile.edit', $user->id) }}" class="btn btn-primary">Edit Profile</a>
+                        @endif
                     </div>
                 </div>
             {{-- </div> --}}
@@ -36,9 +37,9 @@
 <script>
   let currentPage = 1;
   const photosPerPage = 12;
-  const totalPhotos = 30; // Adjust this based on your data
+  const photos = @json($user->media);
+  const totalPhotos = photos.length; // Adjust this based on your data
   const totalPages = Math.ceil(totalPhotos / photosPerPage);
-  const photos = Array.from({ length: totalPhotos }, (_, i) => `Image ${i + 1}`);
 
   function loadPhotos(page) {
       const start = (page - 1) * photosPerPage;
@@ -117,22 +118,6 @@
 
   // Initial load
   loadPhotos(currentPage);
-  
-  function toggleUploadModal() {
-    // this function checks the current display status of the modal. if its hidden, it sets it to block making it visible
-    const modal = document.getElementById('upload-modal');
-    modal.style.display = modal.style.display === 'none' ? 'block' : 'none';
-}
 
-// Close the modal when clicking outside of the modal content
-window.onclick = function(event) {
-  // listens to click anyhwhere on the screen
-  // the even listener checks if the user clicks anywhere on the window 
-  // if the click occurs on the dark area, it hides the modal again
-    const modal = document.getElementById('upload-modal');
-    if (event.target === modal) {
-        modal.style.display = 'none';
-    }
-}
 </script>
 @endsection

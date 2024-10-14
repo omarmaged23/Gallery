@@ -34,12 +34,24 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'profilepic' =>['required','max:51200']
         ]);
+        $media = $request->file('profilepic');
+        $extension = $media->getClientOriginalExtension(); // Extension
+        $dummyId = uniqid();
+        $folder = 'profile_picture';
+        $directory = public_path($folder);
+        if (!is_dir($directory)) {
+            mkdir($directory, 0755, true); // Creates the directory with permission 0755 and recursively
+        }
+        $relative_path = $dummyId.'.'.$extension;
+        $media->move($directory.'/', $relative_path);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'avatar_path' => $relative_path
         ]);
 
         event(new Registered($user));

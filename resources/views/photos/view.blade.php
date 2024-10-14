@@ -3,9 +3,12 @@
 @section('title') Photos @endsection
 
 @section('content')
+@php
+$j=0;
+@endphp
 <div>
    <div class="position-relative" style="width: 100%; height: 25vh; overflow: hidden;">
-    <img src="{{ url('/images/myimage1.jpg') }}" alt="" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;">
+    <img src="{{ asset($banner->path) }}" alt="" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%;">
   </div>
   <div class="container">
     <form id="search" class="d-flex justify-content-center my-3">
@@ -29,170 +32,94 @@
   <div class="containers">
     <div  id="photo-gallery" class="row mx-0 my-5 ">
       <!-- Photo Gallery Will Be Populated Here -->
-      {{-- <div style='border:1px solid black;'>
-        <figure class="effect-ming tm-video-item">
-          <a href="{{ route('photos.show', 1) }}">
-            <img class="img-fluid" src="{{ url('/images/img.jpg') }}" alt="" style="width: 100%;">
-            <figcaption class="d-flex align-items-center justify-content-center">
-              <h2>${photo}</h2>
-            </figcaption>
-          </a>
-        </figure>
-        <div class="d-flex justify-content-evenly">
-        <span>Ahmed</span>
-        <div>
-          <button class="heart-button" aria-label="Like">
-            <i class="fa-regular fa-heart" style="font-size: 1.1em; color: red;"></i>
-          </button>
-          <span>500</span>
-        </div>
-        <span class="tm-text-gray-light">18 Oct 2020</span>
-        </div>
-     </div>
-      <div style='border:1px solid black;'>
-        <figure class="effect-ming tm-video-item">
-          <a href="{{ route('photos.show', 1) }}">
-            <img class="img-fluid" src="{{ url('/images/photo2.jpeg') }}" alt="" style="width: 100%;">
-            <figcaption class="d-flex align-items-center justify-content-center">
-              <h2>${photo}</h2>
-            </figcaption>
-          </a>
-        </figure>
-        <div class="d-flex justify-content-evenly">
-        <span>Ahmed</span>
-        <div>
-          <button class="heart-button" aria-label="Like">
-            <i class="fa-regular fa-heart" style="font-size: 1.1em; color: red;"></i>
-          </button>
-          <span>500</span>
-        </div>
-        <span class="tm-text-gray-light">18 Oct 2020</span>
-        </div>
-     </div> --}}
-    </div>
+        @php
+            $i=0;
+        @endphp
+        @foreach($photos as $photo)
+            <div class="col-lg-3 col-md-6 col-12 p-1"> <!-- Adjust this class for your layout -->
+                <div style='border:1px solid black;'>
+                    <figure class="effect-ming tm-video-item">
+                        <a href="/photos/{{ $photo->id }}">
+                            <img class="img-fluid" src="{{ asset($photo->path) }}" alt="" style="width: 100%;">
+                            <figcaption class="d-flex align-items-center justify-content-center">
+                                <h2>{{ $photo->name }}</h2>
+                            </figcaption>
+                        </a>
+                    </figure>
+                    <div class="d-flex justify-content-evenly">
+                        <span>{{ $photo->user->name }}</span>
+                        <div id="{{'like-'.++$i}}" class="like-btn" data-id="{{$photo->id}}">
 
-    <div class="d-flex justify-content-center">
-      <ul class="pagination pagination-lg">
-          <li class="page-item" id="prev-page"><a class="page-link" href="#">Previous</a></li>
-          <li class="page-item active" id="page-1"><a class="page-link" href="#">1</a></li>
-          <li class="page-item" id="page-2"><a class="page-link" href="#">2</a></li>
-          <li class="page-item" id="page-3"><a class="page-link" href="#">3</a></li>
-          <li class="page-item" id="next-page"><a class="page-link" href="#">Next</a></li>
-      </ul>
+                            <button class="heart-button" aria-label="Like">
+                                @php
+                                    $isLiked = \App\Models\likes::where([
+                                        ['media_id', $photo->id],
+                                        ['user_id', auth()->user()->id]
+                                    ])->exists();
+                                @endphp
+                                <i class="{{ $isLiked ? 'fa-solid' : 'fa-regular' }} fa-heart" style="font-size: 1.1em; color: red;"></i>
+                            </button>
+                            <span id="{{'likesCount-'.$i}}">{{$photo->likes->count()}}</span>
+                        </div>
+                        <span class="tm-text-gray-light">{{ $photo->created_at->diffForHumans() }}</span>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        <div class="d-flex justify-content-center">
+            <!-- Pagination -->
+            {{ $photos->links('pagination::bootstrap-4') }} <!-- Use Bootstrap pagination -->
+        </div>
     </div>
-
   </div>
 </div>
 
-<script>
-  let currentPage = 1;
-  const photosPerPage = 5;
-  const totalPhotos = 10; // Adjust this based on your data
-  const totalPages = Math.ceil(totalPhotos / photosPerPage);
+    <script>
+        function toggleUploadModal() {
+            // this function checks the current display status of the modal. if its hidden, it sets it to block making it visible
+            const modal = document.getElementById('upload-modal');
+            modal.style.display = modal.style.display === 'none' ? 'block' : 'none';
+        }
 
-  const photos = Array.from({ length: totalPhotos }, (_, i) => `Image ${i + 1}`);
-
-  function loadPhotos(page) {
-      const start = (page - 1) * photosPerPage;
-      const end = start + photosPerPage;
-      const gallery = document.getElementById('photo-gallery');
-
-      // Clear existing photos
-      gallery.innerHTML = '';
-
-      // Load new photos
-      photos.slice(start, end).forEach(photo => {
-          const img = document.createElement('div');
-          img.className = 'container col-lg-3 col-md-6 col-12 p-1'; // 2 columns on medium screens, 1 column on small screens
-          // img.className = 'd-flex justify-content-evenly align-items-center flex-row'; // 2 columns on medium screens, 1 column on small screens
-          img.innerHTML = `<div style='border:1px solid black;'>
-                              <figure class="effect-ming tm-video-item">
-                                <a href="{{ route('photos.show', 1) }}">
-                                  <img class="img-fluid" src="{{ url('/images/img.jpg') }}" alt="" style="width: 100%;">
-                                  <figcaption class="d-flex align-items-center justify-content-center">
-                                    <h2>${photo}</h2>
-                                  </figcaption>
-                                </a>
-                              </figure>
-                              <div class="d-flex justify-content-evenly">
-                              <span>Ahmed</span>
-                              <div>
-                                <button class="heart-button" aria-label="Like">
-                                  <i class="fa-regular fa-heart" style="font-size: 1.1em; color: red;"></i>
-                                </button>
-                                <span>500</span>
-                              </div>
-                              <span class="tm-text-gray-light">18 Oct 2020</span>
-                              </div>
-                           </div>`;
-          gallery.appendChild(img);
-      });
-
-      updatePagination();
-  }
-
-  function updatePagination() {
-      const prevPage = document.getElementById('prev-page');
-      const nextPage = document.getElementById('next-page');
-
-      prevPage.classList.toggle('disabled', currentPage === 1);
-      nextPage.classList.toggle('disabled', currentPage === totalPages);
-
-      // Update active page
-      for (let i = 1; i <= totalPages; i++) {
-          const pageItem = document.getElementById(`page-${i}`);
-          if (pageItem) {
-              pageItem.classList.toggle('active', currentPage === i);
-          }
-      }
-  }
-
-  // Event listeners for pagination
-  document.getElementById('prev-page').addEventListener('click', () => {
-      if (currentPage > 1) {
-          currentPage--;
-          loadPhotos(currentPage);
-      }
-  });
-
-  document.getElementById('next-page').addEventListener('click', () => {
-      if (currentPage < totalPages) {
-          currentPage++;
-          loadPhotos(currentPage);
-      }
-  });
-
-  // Event listeners for individual page links
-  for (let i = 1; i <= totalPages; i++) {
-      const pageLink = document.getElementById(`page-${i}`);
-      if (pageLink) {
-          pageLink.addEventListener('click', (e) => {
-              e.preventDefault();
-              currentPage = i;
-              loadPhotos(currentPage);
-          });
-      }
-  }
-
-  // Initial load
-  loadPhotos(currentPage);
-
-  function toggleUploadModal() {
-    // this function checks the current display status of the modal. if its hidden, it sets it to block making it visible
-    const modal = document.getElementById('upload-modal');
-    modal.style.display = modal.style.display === 'none' ? 'block' : 'none';
-}
-
-// Close the modal when clicking outside of the modal content
-window.onclick = function(event) {
-  // listens to click anyhwhere on the screen
-  // the even listener checks if the user clicks anywhere on the window
-  // if the click occurs on the dark area, it hides the modal again
-    const modal = document.getElementById('upload-modal');
-    if (event.target === modal) {
-        modal.style.display = 'none';
-    }
-}
-</script>
-
+        // Close the modal when clicking outside of the modal content
+        window.onclick = function(event) {
+            // listens to click anyhwhere on the screen
+            // the even listener checks if the user clicks anywhere on the window
+            // if the click occurs on the dark area, it hides the modal again
+            const modal = document.getElementById('upload-modal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', '.like-btn', function () {
+                const buttonId = $(this).attr('id'); // Get clicked btn
+                const itemId = $(this).data('id');   // Get data-id attr
+                const likeIcon =$('#' + buttonId).children().first();   // Get first child
+                const likeCount =$('#' + buttonId).children().eq(1);   // Get second child
+                $.ajax({
+                    type: 'POST',
+                    url: '/like',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: itemId,
+                    },
+                    success: function (response) {
+                        if(response.status == 302){
+                            likeIcon.html(`<i class="fa-regular fa-heart" style="font-size: 1.1em; color: red;"></i>`);
+                        }else{
+                            likeIcon.html(`<i class="fa-solid fa-heart" style="font-size: 1.1em; color: red;"></i>`);
+                        }
+                        likeCount.html(response.count);
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle errors
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

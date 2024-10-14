@@ -2,12 +2,17 @@
 
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\ManageUserController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\SlugsController;
+use App\Http\Controllers\User\ContactController;
+use App\Http\Controllers\User\LikesController;
+use App\Http\Controllers\User\MediaInteractionController;
+use App\Http\Controllers\User\PhotoController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\VideoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,9 +25,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::post('/media/store',[MediaController::class,'store'])->name('admin.media.store');
+Route::post('/media/update',[MediaController::class,'update'])->name('admin.media.update');
 
 Route::prefix('admin')->group(function () {
-    Route::middleware('guest:admin,web')->group(function () {
+    Route::middleware('guest:admin')->group(function () {
 //    Custom Admin Auth
         Route::get('/register', [AdminAuthController::class, 'showRegisterForm'])->name('admin.register');
         Route::post('/register', [AdminAuthController::class, 'register'])->name('admin.register.submit');
@@ -50,9 +57,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/media',[MediaController::class,'index'])->name('admin.media');
         Route::get('/media/create',[MediaController::class,'create'])->name('admin.media.create');
         Route::get('/media/show/{id}',[MediaController::class,'show'])->name('admin.media.show');
-        Route::post('/media/store',[MediaController::class,'store'])->name('admin.media.store');
+//        Route::post('/media/store',[MediaController::class,'store'])->name('admin.media.store');
         Route::get('/media/edit/{id}',[MediaController::class,'edit'])->name('admin.media.edit');
-        Route::post('/media/update',[MediaController::class,'update'])->name('admin.media.update');
+//        Route::post('/media/update',[MediaController::class,'update'])->name('admin.media.update');
         Route::get('/media/delete/{id}',[MediaController::class,'delete'])->name('admin.media.delete');
 //  Slugs Route
         Route::get('/slugs',[SlugsController::class,'index'])->name('admin.slugs');
@@ -75,70 +82,66 @@ Route::prefix('admin')->group(function () {
 });
 
 // User Routes
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register');
-
-
-Route::get('/home', function () {
-    return view('misc.index');
-})->name('home');
-
-Route::get('/photos', function () {
-    return view('photos.view');
-})->name('photos');
-
-Route::get('/videos', function () {
-    return view('videos.view');
-})->name('videos');
-
-Route::get('/about', function () {
-    return view('misc.about');
-})->name('about');
-Route::get('/contact', function () {
-    return view('misc.contact');
-})->name('contact');
-
-Route::get('/profile/{profile}', function () {
-    return view('misc.profile');
-})->name('profile');
-
-Route::get('/userprofile/{user}', function () {
-    return view('userprofile.show');
-})->name('userprofile.show');
-
-Route::get('/edituserprofile/{user}/edit', function () {
-    return view('userprofile.edit');
-})->name('userprofile.edit');
-
-
-
-Route::get('/userprofile/{user}/{uploads}', function () {
-    return view('.userprofile.uploads.show');
-})->name('userphoto.show');
-
-Route::get('/photos/{photo}', function () {
-    return view('photos.show');
-})->name('photos.show');
-
-Route::get('/videos/{videos}', function () {
-    return view('videos.show');
-})->name('videos.show');
+//Route::middleware('guest')->group(function () {
+//    Route::get('/login', function () {
+//        return view('auth.login');
+//    });
+//
+//    Route::get('/register', function () {
+//        return view('auth.register');
+//    });
+//});
 
 // Generated Breeze Auth
 //Route::get('/dashboard', function () {
 //    return view('dashboard');
 //})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth:web')->group(function () {
 
 //    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 //    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/home', function () {
+        return view('misc.index');
+    })->name('home');
+
+    Route::get('/photos', [PhotoController::class,'index'])->name('photos');
+
+    Route::get('/photos/{photo}', [PhotoController::class,'show'])->name('photos.show');
+
+    Route::get('/videos',[VideoController::class,'index'])->name('videos');
+
+    Route::get('/videos/{video}', [VideoController::class,'show'])->name('videos.show');
+
+    Route::post('/like', [LikesController::class,'like'])->name('like');
+    Route::post('/comment', [MediaInteractionController::class,'comment'])->name('comment');
+    Route::get('/delete/{id}', [MediaInteractionController::class,'delete'])->name('delete');
+    Route::get('/download/{path}', [LikesController::class, 'download']);
+
+    Route::post('/email',[ContactController::class,'email'])->name('contact.mail');
+
+    Route::get('/userprofile/{user}/{uploads}', function () {
+        return view('.userprofile.uploads.show');
+    })->name('userphoto.show');
+
+    Route::get('/profile/{profile}', function () {
+        return view('misc.profile');
+    })->name('profile');
+
+    Route::get('/userprofile/{user}',[UserController::class,'show'])->name('userprofile.show');
+
+    Route::get('/edituserprofile/{user}/edit',[UserController::class,'edit'])->name('userprofile.edit');
+    Route::post('/edituserprofile/change',[UserController::class,'change'])->name('userprofile.change');
+
+    Route::get('/about', function () {
+        return view('misc.about');
+    })->name('about');
+
+    Route::get('/contact', function () {
+        return view('misc.contact');
+    })->name('contact');
+
 });
 
 require __DIR__.'/auth.php';

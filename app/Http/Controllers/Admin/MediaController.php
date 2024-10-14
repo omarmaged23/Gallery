@@ -62,10 +62,11 @@ class MediaController extends Controller
             shell_exec($command);
 
         }
-
         DB::transaction(function () use ($request,$extension,$folder,$media_name,$type,$size,$formattedDuration,$dimensions) {
+            $description = $request->description ?? null;
             $media = Media::create([
                 'name' => $request->name,
+                'description' => $description,
                 'format' => $extension,
                 'path' => $folder.'/'.$media_name,
                 'uploaded_by_id' => 1 // logged in user
@@ -107,9 +108,20 @@ class MediaController extends Controller
 
         $media = media::find($request->id);
         DB::transaction(function () use ($request,$media){
+            if(!($request->description)){
+                $description = null;
+            }else{
+                $description = $request->description;
+            }
+            if(!($request->status)){
+                $status = $media->approved;
+            }else{
+                $status = $request->status;
+            }
             $media->update([
             'name' => $request->name,
-            'approved' => $request->status,
+            'description' => $description,
+            'approved' => $status,
         ]);
             // Delete all tags
         $media->slugs()->detach();
