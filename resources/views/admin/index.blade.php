@@ -1,0 +1,12 @@
+@extends('admin.layouts.layout')
+@section('title')
+    Dashboard
+@endsection
+@section('home_status')
+    active
+@endsection
+@section('content')
+#####Dashboard
+@endsection
+@section('scripts')
+@endsection
