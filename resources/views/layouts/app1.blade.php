@@ -45,9 +45,9 @@
                     <button class="btn">Logout</button>
                 </a>
           <li class="nav-item">
-            <a class="nav-link" href="{{route('userprofile.show',auth()->user()->id)}}">
-                @if(auth()->user()->avatar_path)
-                    <img style="display: inline-block; position: relative; width: 40px; height: 40px; overflow: hidden; border-radius: 50%;" src="{{ asset('profile_picture/'.auth()->user()->avatar_path) }}" alt="">
+            <a class="nav-link" href="{{route('userprofile.show',auth('web')->user()->id)}}">
+                @if(auth('web')->user()->avatar_path)
+                    <img style="display: inline-block; position: relative; width: 40px; height: 40px; overflow: hidden; border-radius: 50%;" src="{{ asset('profile_picture/'.auth('web')->user()->avatar_path) }}" alt="">
                 @else
                     <img style="display: inline-block; position: relative; width: 40px; height: 40px; overflow: hidden; border-radius: 50%;" src="{{ url('/images/profile.jpeg') }}" alt="">
                 @endif

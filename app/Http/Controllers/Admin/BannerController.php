@@ -39,7 +39,7 @@ class BannerController extends Controller
         DB::transaction(function () use ($request,$extension,$folder,$media_name,$type,$size,$formattedDuration,$dimensions) {
             $banner = banner::create([
                 'path' => $folder.'/'.$media_name,
-                'uploaded_by_admin' => auth()->user()->id,
+                'uploaded_by_admin' => auth('admin')->user()->id,
             ]);
             $banner->bannerDetails()->create([
                 'type' => $type,

@@ -65,7 +65,7 @@ class AdminController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return to_route('admin.admins.indexAdmins');
+        return to_route('admin.admins.indexAdmins')->with('success','admin created successfully');
     }
     public function edit($id)
     {
@@ -95,7 +95,7 @@ class AdminController extends Controller
             return back()->with('failed','password fields must be empty or >= 8 characters and equal');
         }
 
-        return to_route('admin.admins.indexAdmins');
+        return to_route('admin.admins.indexAdmins')->with('success','admin edited successfully');
     }
 
     public function delete(Request $request)
@@ -103,11 +103,13 @@ class AdminController extends Controller
         $request->validate([
             'id' => 'exists:admins,id'
         ]);
+        if($request->id == auth('admin')->user()->id)
+            return back()->with('failed','you cant delete current logged in admin');
         $admin = Admin::find($request->id);
         if($admin){
             $admin->delete();
         }
-        return back();
+        return back()->with('success','admin deleted successfully');
     }
 
 }

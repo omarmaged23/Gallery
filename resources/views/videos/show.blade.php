@@ -52,6 +52,12 @@
                                 <span class="tm-text-gray-dark">Format: </span>
                                 <span class="tm-text-primary highlight">{{$photo->format}}</span>
                             </div>
+                            @if($photo->mediaDetails->type == 'video')
+                            <div class="mr-4 mb-2">
+                                <span class="tm-text-gray-dark">Duration: </span>
+                                <span class="tm-text-primary highlight">{{$photo->mediaDetails->duration}}</span>
+                            </div>
+                            @endif
                             <div class="mr-4 mb-2">
                                 <span class="tm-text-gray-dark">Category: </span>
                                 <span class="tm-text-primary highlight">{{$photo->categories->first()->title}}</span>
@@ -69,7 +75,7 @@
                                     @php
                                         $isLiked = \App\Models\likes::where([
                                             ['media_id', $photo->id],
-                                            ['user_id', auth()->user()->id]
+                                            ['user_id', auth('web')->user()->id]
                                         ])->exists();
                                     @endphp
                                     <i class="{{ $isLiked ? 'fa-solid' : 'fa-regular' }} fa-heart" style="font-size: 1.1em; color: red;"></i>

@@ -15,7 +15,7 @@ class LikesController extends Controller
         $obj = new likes();
         $like = $obj->where([
             ['media_id',$request->id],
-            ['user_id',auth()->user()->id]
+            ['user_id',auth('web')->user()->id]
         ]);
         $is_liked = $like->count();
 
@@ -30,7 +30,7 @@ class LikesController extends Controller
 
         $obj->create([
             'media_id' => $request->id,
-            'user_id' => auth()->user()->id
+            'user_id' => auth('web')->user()->id
         ]);
 
         $likes = $obj->where('media_id',$request->id)->count();

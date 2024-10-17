@@ -98,7 +98,7 @@ class MediaController extends Controller
                 'resolution' => $dimensions,
             ]);
         });
-        return back();
+        return back()->with('success','media deleted successfully');
     }
 
     public function edit($id)
@@ -147,7 +147,7 @@ class MediaController extends Controller
         }
         });
 
-        return back();
+        return back()->with('success','media edited successfully');
     }
 
     public function delete($id){
@@ -161,6 +161,6 @@ class MediaController extends Controller
             }
             $media->delete();
         }
-        return back();
+        return back()->with('success','media deleted successfully');
     }
 }

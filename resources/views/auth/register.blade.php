@@ -1,6 +1,6 @@
 @extends('layouts.app1')
 
-@section('title') Account Login @endsection
+@section('title') Account Registration @endsection
 
 @section('content')
 <div class="container vh-100 d-flex justify-content-center align-items-stretch p-0 mx-auto  my-5" style="background-color: #f2f2f2;">
@@ -38,9 +38,6 @@
 
                     <button type="submit" class="btn btn-success w-100 mb-3">Sign Up</button>
 
-                    {{-- <div class="text-center">
-                        <a href="#" class="text-muted">Forgot User name / password?</a>
-                    </div> --}}
                 </form>
 
                 <div class="text-center mt-3">

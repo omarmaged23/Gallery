@@ -18,11 +18,14 @@
                 </ul>
             </div>
         @endif
+        @if(session()->has('success'))
+            <div class="alert alert-success">
+                {{session('success')}}
+            </div>
+        @endif
         @if(session()->has('failed'))
             <div class="alert alert-danger">
-                <ul>
-                    <li>{{session('failed')}}</li>
-                </ul>
+                {{session('failed')}}
             </div>
         @endif
         <form action="{{route('admin.admins.update')}}" method="post">

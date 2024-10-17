@@ -8,6 +8,25 @@
 @section('content')
     <h1 class="display-2 mb-5 text-center">Media</h1>
     <div class="container bg-light">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        @if(session()->has('success'))
+            <div class="alert alert-success">
+                {{session('success')}}
+            </div>
+        @endif
+        @if(session()->has('failed'))
+            <div class="alert alert-danger">
+                {{session('failed')}}
+            </div>
+        @endif
         <a class="btn btn-dark w-100" href="{{route('admin.media.create')}}"> Create Media</a>
         <table class="table table-hover">
             <thead>

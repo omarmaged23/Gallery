@@ -7,16 +7,26 @@
 @endsection
 @section('content')
     <h1 class="display-2 mb-5 text-center">Add New Slug</h1>
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
     <div class="container bg-light">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        @if(session()->has('success'))
+            <div class="alert alert-success">
+                {{session('success')}}
+            </div>
+        @endif
+        @if(session()->has('failed'))
+            <div class="alert alert-danger">
+                {{session('failed')}}
+            </div>
+        @endif
         <form action="{{route('admin.slugs.store')}}" method="post">
             @csrf
             <div class="mb-3">

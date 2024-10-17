@@ -20,7 +20,7 @@ class MediaInteractionController extends Controller
         $comment = media_interaction::create([
             'comment' => $request->comment,
             'media_id' => $request->id,
-            'user_id' => auth()->user()->id
+            'user_id' => auth('web')->user()->id
         ]);
         return response()->json($comment);
     }

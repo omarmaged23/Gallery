@@ -29,7 +29,7 @@ class ManageUserController extends Controller
 
         $user = User::find($request->id);
         $user->active = $status;
-        $user->status_changed_by = auth()->user()->id;
+        $user->status_changed_by = auth('admin')->user()->id;
         $user->save();
         return back()->with('success','user status changed successfully');
     }

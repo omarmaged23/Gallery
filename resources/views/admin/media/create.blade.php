@@ -17,6 +17,16 @@
                 </ul>
             </div>
         @endif
+        @if(session()->has('success'))
+            <div class="alert alert-success">
+                {{session('success')}}
+            </div>
+        @endif
+        @if(session()->has('failed'))
+            <div class="alert alert-danger">
+                {{session('failed')}}
+            </div>
+        @endif
         <form action="{{route('admin.media.store')}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">

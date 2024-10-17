@@ -58,7 +58,7 @@
                                         @php
                                             $isLiked = \App\Models\likes::where([
                                                 ['media_id', $photo->id],
-                                                ['user_id', auth()->user()->id]
+                                                ['user_id', auth('web')->user()->id]
                                             ])->exists();
                                         @endphp
                                         <i class="{{ $isLiked ? 'fa-solid' : 'fa-regular' }} fa-heart" style="font-size: 1.1em; color: red;"></i>

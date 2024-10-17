@@ -26,7 +26,7 @@ class CategoryController extends Controller
         category::create([
             'title' => $request->title,
         ]);
-        return back();
+        return back()->with('success','category added');
     }
     public function delete(Request $request)
     {
@@ -34,6 +34,6 @@ class CategoryController extends Controller
         if($slug){
             $slug->delete();
         }
-        return back();
+        return back()->with('success','category removed');
     }
 }

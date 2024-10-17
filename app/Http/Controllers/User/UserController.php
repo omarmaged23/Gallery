@@ -16,7 +16,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findorFail($id);
-        if($user->id != auth()->user()->id){
+        if($user->id != auth('web')->user()->id){
             return to_route('home');
         }
         return view('userprofile.edit',compact('user'));
@@ -25,16 +25,16 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.auth()->user()->id
+            'email' => 'required|email|unique:users,email,'.auth('web')->user()->id
         ]);
         $user = User::findorFail($request->id);
-        if($user->id != auth()->user()->id){
+        if($user->id != auth('web')->user()->id){
             return to_route('home');
         }
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
         ]);
-        return to_route('userprofile.show',auth()->user()->id);
+        return to_route('userprofile.show',auth('web')->user()->id)->with('success','user profile successfully changed');
     }
 }

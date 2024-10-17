@@ -19,7 +19,7 @@
             <div class="card" style="border: none; text-align: center; display: flex; justify-content: center; align-items: center;">
                 <img style="display: inline-block; position: relative; width: 120px; height: 120px; overflow: hidden; border-radius: 50%;" src="{{$user->avatar_path ? asset('profile_picture/'.$user->avatar_path) : url('/images/profile.jpeg') }}" class="card-img-top" alt="Video 1">
                 <div class="card-body">
-                    <h5 class="card-title">{{auth()->user()->name}}</h5>
+                    <h5 class="card-title">{{auth('web')->user()->name}}</h5>
                 </div>
             </div>
         </div>

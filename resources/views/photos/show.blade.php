@@ -69,7 +69,7 @@
                                     @php
                                         $isLiked = \App\Models\likes::where([
                                             ['media_id', $photo->id],
-                                            ['user_id', auth()->user()->id]
+                                            ['user_id', auth('web')->user()->id]
                                         ])->exists();
                                     @endphp
                                     <i class="{{ $isLiked ? 'fa-solid' : 'fa-regular' }} fa-heart" style="font-size: 1.1em; color: red;"></i>
@@ -88,10 +88,10 @@
                     <div class="comment mb-3">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <a href="{{ route('profile', $comment->user->id) }}" style="display: inline">
+                                <a href="{{ route('userprofile.show', $comment->user->id) }}" style="display: inline">
                                     <img style="display: inline-block; position: relative; width: 40px; height: 40px; overflow: hidden; border-radius: 50%;" src="{{$comment->user->avatar_path ? asset('profile_picture/'.$comment->user->avatar_path) : url('/images/profile.jpeg') }}" alt="">
                                 </a>
-                                <a href="{{ route('profile', $comment->user->id) }}"> <span class="font-weight-bold">{{$comment->user->name}}</span></a>
+                                <a href="{{ route('userprofile.show', $comment->user->id) }}"> <span class="font-weight-bold">{{$comment->user->name}}</span></a>
                             </div>
                             <span class="text-muted">{{$comment->created_at->diffForHumans()}}</span>
                         </div>

@@ -31,8 +31,8 @@ Route::post('/media/update',[MediaController::class,'update'])->name('admin.medi
 Route::prefix('admin')->group(function () {
     Route::middleware('guest:admin')->group(function () {
 //    Custom Admin Auth
-        Route::get('/register', [AdminAuthController::class, 'showRegisterForm'])->name('admin.register');
-        Route::post('/register', [AdminAuthController::class, 'register'])->name('admin.register.submit');
+//        Route::get('/register', [AdminAuthController::class, 'showRegisterForm'])->name('admin.register');
+        Route::post('/register/submit', [AdminAuthController::class, 'register'])->name('admin.register.submit');
         Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
         Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
     });
@@ -102,7 +102,7 @@ Route::middleware(['auth:web','check_user_status'])->group(function () {
 //    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 //    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/home', function () {
+    Route::get('/', function () {
         return view('misc.index');
     })->name('home');
 
@@ -120,8 +120,6 @@ Route::middleware(['auth:web','check_user_status'])->group(function () {
     Route::get('/delete/{id}', [MediaInteractionController::class,'delete'])->name('delete');
     Route::get('/download/{path}', [LikesController::class, 'download']);
 
-    Route::post('/email',[ContactController::class,'email'])->name('contact.mail');
-
     Route::get('/userprofile/{user}/{uploads}', function () {
         return view('.userprofile.uploads.show');
     })->name('userphoto.show');
@@ -135,14 +133,16 @@ Route::middleware(['auth:web','check_user_status'])->group(function () {
     Route::get('/edituserprofile/{user}/edit',[UserController::class,'edit'])->name('userprofile.edit');
     Route::post('/edituserprofile/change',[UserController::class,'change'])->name('userprofile.change');
 
-    Route::get('/about', function () {
-        return view('misc.about');
-    })->name('about');
-
-    Route::get('/contact', function () {
-        return view('misc.contact');
-    })->name('contact');
-
 });
+
+Route::get('/about', function () {
+    return view('misc.about');
+})->name('about');
+
+Route::get('/contact', function () {
+    return view('misc.contact');
+})->name('contact');
+
+Route::post('/email',[ContactController::class,'email'])->name('contact.mail');
 
 require __DIR__.'/auth.php';

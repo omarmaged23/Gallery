@@ -25,7 +25,7 @@ class SlugsController extends Controller
         slugs::create([
             'title' => $request->title,
         ]);
-        return back();
+        return back()->with('success','slug created successfully');
     }
     public function delete(Request $request)
     {
@@ -33,6 +33,6 @@ class SlugsController extends Controller
         if($slug){
             $slug->delete();
         }
-        return back();
+        return back()->with('success','slug deleted successfully');
     }
 }

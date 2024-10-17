@@ -17,6 +17,16 @@
                 </ul>
             </div>
         @endif
+        @if(session()->has('success'))
+            <div class="alert alert-success">
+                {{session('success')}}
+            </div>
+        @endif
+        @if(session()->has('failed'))
+            <div class="alert alert-danger">
+                {{session('failed')}}
+            </div>
+        @endif
         <form action="{{route('admin.media.update')}}" method="post">
             @csrf
             <input type="hidden" value="{{$media->id}}" name="id">

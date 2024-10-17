@@ -41,9 +41,6 @@
 
                     <button type="submit" class="btn btn-success w-100 mb-3">Sign In</button>
 
-                    {{-- <div class="text-center">
-                        <a href="#" class="text-muted">Forgot User name / password?</a>
-                    </div> --}}
                 </form>
 
                 <div class="text-center mt-3">
