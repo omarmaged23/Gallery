@@ -121,81 +121,88 @@ a{
   color: #009999;
 }
 
+/* ///////////////////////////////// */
+/* ///////////////////////////////// */
+/* ///////////////////////////////// */
 .effect-ming {
-    opacity: 0.5;
-    position: relative;
-    transition: opacity 0.3s ease;
-    display: flex; /* Enable flexbox */
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-    overflow: hidden; /* Prevent overflow */
+  opacity: 0.5;
+  position: relative;
+  transition: opacity 0.3s ease;
+  display: flex; /* Enable flexbox */
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  overflow: hidden; /* Prevent overflow */
 }
 
 .effect-ming img {
-    width: 100%; /* Full width */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: cover; /* Cover the container */
+  width: 100%; /* Full width */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Cover the container */
 }
 
 .effect-ming .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(98, 79, 85, 0.7); /* Semi-transparent background */
-    opacity: 0; /* Initially hidden */
-    transition: opacity 0.3s ease; /* Smooth transition */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(98, 79, 85, 0.5); /* Reduced opacity for the overlay */
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.3s ease; /* Smooth transition */
 }
 
 .effect-ming figcaption,
 .effect-ming h2 {
-    opacity: 0; /* Initially hidden */
-    position: absolute; /* Position relative to the parent */
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0; /* Fill the entire height */
-    display: flex; /* Use flexbox to center content */
-    align-items: center;
-    justify-content: center;
-    text-align: center; /* Center text */
-    transition: opacity 0.3s ease; /* Smooth transition */
-    padding: 20px; /* Inner spacing */
+  opacity: 0; /* Initially hidden */
+  position: absolute; /* Position relative to the parent */
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0; /* Fill the entire height */
+  display: flex; /* Use flexbox to center content */
+  align-items: center;
+  justify-content: center;
+  text-align: center; /* Center text */
+  transition: opacity 0.3s ease; /* Smooth transition */
+  padding: 20px; /* Inner spacing */
 }
 
 .effect-ming h2 {
-    color: white;
-    background-color: #624f55;
-    border: 2px solid white;
-    margin: 0; /* Remove margin */
-    transition: text-shadow 0.3s ease; /* Smooth transition for glow */
+  color: white;
+  background-color: rgba(98, 79, 85, 0.7); /* Semi-transparent background for the text */
+  border: 2px solid white;
+  margin: 0; /* Remove margin */
+  transition: text-shadow 0.3s ease, opacity 0.3s ease; /* Smooth transition for glow */
 }
 
 .effect-ming figcaption {
-    color: white; /* Set text color */
-    transition: text-shadow 0.3s ease; /* Smooth transition for glow */
+  color: white; /* Set text color */
+  transition: text-shadow 0.3s ease, opacity 0.3s ease; /* Smooth transition for glow */
 }
 
 .effect-ming:hover .overlay {
-    opacity: 1; /* Show overlay on hover */
+  opacity: 0.5; /* Show overlay on hover, with reduced opacity */
 }
 
-.effect-ming:hover figcaption{
-    opacity: 0.7; /* Show both on hover */
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
-    0 0 20px rgba(255, 255, 255, 0.6); /* Glowing effect */
+.effect-ming:hover figcaption {
+  opacity: 0.8; /* Slightly dimmed visibility on hover */
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+               0 0 20px rgba(255, 255, 255, 0.6); /* Glowing effect */
 }
+
 .effect-ming:hover h2 {
-    opacity: 50; /* Show both on hover */
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
-    0 0 20px rgba(255, 255, 255, 0.6); /* Glowing effect */
+  opacity: 1; /* Fully visible on hover */
+  text-shadow: 0 0 15px rgba(255, 255, 255, 1),
+               0 0 30px rgba(255, 255, 255, 0.8); /* Stronger glowing effect */
 }
-
 
 .effect-ming:hover {
-    opacity: 1; /* Ensure the container is fully opaque on hover */
+  opacity: 1; /* Ensure the container is fully opaque on hover */
 }
+
+/* ////////////////////////////////////////////// */
+/* ////////////////////////////////////////////// */
+/* ////////////////////////////////////////////// */
 .container-auth100 {
   width: 100%;
   min-height: 100vh;
@@ -266,10 +273,77 @@ a{
   opacity: 1;
   transform: scale(1);
 }
-.dimension-format {
-    display: block; /* Change from flex to block */
-    margin-bottom: 20px; /* Optional: adds spacing between elements */
+/* /////////////////////////////////////new login & REgister//////////////////////// */
+/* /////////////////////////////////////new login & REgister//////////////////////// */
+/* /////////////////////////////////////new login & REgister//////////////////////// */
+/* /////////////////////////////////////new login & REgister//////////////////////// */
+/* /////////////////////////////////////new login & REgister//////////////////////// */
+.name1 {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  padding: 0;
 }
+
+.row1 {
+  display: flex;
+  width: 100%;
+  margin: 0;
+  height: 100%;
+}
+
+.col1 {
+  flex: 0 0 50%; /* 50% width for both columns */
+  max-width: 50%;
+  padding: 0;
+
+}
+.col1 img{
+  height: 100vh;
+  width: 100%;
+  object-fit: cover;
+}
+
+.col2 {
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+}
+
+.col2> *{
+  max-width: 350px;
+  width: 100%;
+}
+
+@media (max-width: 992px) {
+  .col1 {
+    display: none;
+  }
+  .col2 {
+    flex: 0 0 100%; /* 50% width for both columns */
+    max-width: 100%;
+    /* border: 1px solid red; */
+  }
+  /* /////////////////////////////////////new login & REgister//////////////////////// */
+  /* /////////////////////////////////////new login & REgister//////////////////////// */
+  /* /////////////////////////////////////new login & REgister//////////////////////// */
+  /* /////////////////////////////////////new login & REgister//////////////////////// */
+  /* /////////////////////////////////////new login & REgister//////////////////////// */
+}
+/* .col2{
+  flex: 0 0 100%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  border: 5px solid black;
+} */
 /* @media (min-width: 577px) and (max-width: 768px) {
   #photo-gallery .col-3 {
     flex: 0 0 50%;

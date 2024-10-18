@@ -3,16 +3,16 @@
 @section('title') Account Login @endsection
 
 @section('content')
-<div class="container vh-100 d-flex justify-content-center align-items-stretch p-0 mx-auto  my-5" style="background-color: #f2f2f2;">
-    <div class="row w-100 m-0 h-100">
+<div class="container name1 mx-auto  my-5" style="background-color: #f2f2f2;">
+    <div class="row1">
         <!-- Left Side with Image -->
-        <div class="col-lg-6 d-none d-lg-flex p-0">
-            <img src="{{ url('/images/ss.png') }}" alt="" style="height: 100vh; width: 100%; object-fit: cover;">
+        <div class="col1">
+            <img src="{{ url('/images/ss.png') }}" alt="" > {{--style="height: 100vh; width: 100%; object-fit: cover;"--}}
         </div>
 
         <!-- Right Side with Login Form -->
-        <div class="col-lg-6 col-12 d-flex align-items-center justify-content-center bg-light p-0">
-            <div class="login-form p-4" style="max-width: 350px; width: 100%;">
+        <div class=" col2">
+            <div class="login-form p-4" >  {{--style="max-width: 350px; width: 100%;"--}}
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
