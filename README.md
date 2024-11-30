@@ -1,6 +1,6 @@
 # EgPics 📸🎥  
 EgPics is an innovative platform designed for photographers and videographers to share, showcase, and interact with creative works. Built with **Laravel (PHP)**, **MySQL**, **HTML**, **CSS**, and **Bootstrap**, it combines technical depth with user-centered design to foster a supportive and engaging creative community.
-
+[Download Guide](Complete_Software_Manual.pdf).
 ## Features 🚀  
 - **Multi-Auth**: Secure user and admin roles.  
 - **Media Uploads**: Intelligent media type detection (images/videos).  
